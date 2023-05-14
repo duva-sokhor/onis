@@ -1,0 +1,6 @@
+tmp
+!dist/
+node_modules
+/node_modules
+!node_modules/.prisma/client
+.next/cache

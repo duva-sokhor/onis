@@ -1,0 +1,3 @@
+node_modules
+apps/**/*/prisma/client/**
+apps/**/*/prisma/generated.d.ts
