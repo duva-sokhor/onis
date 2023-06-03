@@ -1,0 +1,23 @@
+{
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es6",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "strict": true,
+    "paths": {
+      "@/db": ["src/db.ts"],
+      "@/builder": ["src/builder.ts"]
+    }
+  }
+}
