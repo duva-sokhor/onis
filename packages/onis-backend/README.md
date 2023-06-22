@@ -1,73 +1,528 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# GraphQL Server Example
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This example shows how to implement a **GraphQL server with TypeScript** with the following stack:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- [**GraphQL Yoga**](https://the-guild.dev/graphql/yoga-server): GraphQL server
+- [**Pothos**](https://pothos-graphql.dev/): Code-first GraphQL schema definition library
+- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)
+- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations
+- [**SQLite**](https://www.sqlite.org/index.html): Local, file-based SQL database
 
-## Description
+## Contents
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- [Getting Started](#getting-started)
+- [Using the GraphQL API](#using-the-graphql-api)
+- [Evolving the app](#evolving-the-app)
+- [Switch to another database (e.g. PostgreSQL, MySQL, SQL Server)](#switch-to-another-database-eg-postgresql-mysql-sql-server)
+- [Next steps](#next-steps)
 
-## Installation
+## Getting started
 
-```bash
-$ pnpm install
+### 1. Download example and install dependencies
+
+Download this example:
+
+```
+npx try-prisma@latest --template typescript/graphql
 ```
 
-## Running the app
+Install npm dependencies:
 
-```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+```
+cd graphql
+npm install
 ```
 
-## Test
+<details><summary><strong>Alternative:</strong> Clone the entire repo</summary>
 
-```bash
-# unit tests
-$ pnpm run test
+Clone this repository:
 
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+```
+git clone git@github.com:prisma/prisma-examples.git --depth=1
 ```
 
-## Support
+Install npm dependencies:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```
+cd prisma-examples/typescript/graphql
+npm install
+```
 
-## Stay in touch
+</details>
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### 2. Create and seed the database
 
-## License
+Run the following command to create your SQLite database file. This also creates the `User` and `Post` tables that are defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
 
-Nest is [MIT licensed](LICENSE).
+```
+npx prisma migrate dev --name init
+```
+
+When `npx prisma migrate dev` is executed against a newly created database, seeding is also triggered. The seed file in [`prisma/seed.ts`](./prisma/seed.ts) will be executed and your database will be populated with the sample data.
+
+### 3. Start the GraphQL server
+
+Launch your GraphQL server with this command:
+
+```
+npm run dev
+```
+
+Navigate to [http://localhost:4000](http://localhost:4000) in your browser to explore the API of your GraphQL server in a [GraphQL Playground](https://github.com/prisma/graphql-playground).
+
+## Using the GraphQL API
+
+The schema that specifies the API operations of your GraphQL server is defined in [`./schema.graphql`](./schema.graphql). Below are a number of operations that you can send to the API using the GraphQL Playground.
+
+Feel free to adjust any operation by adding or removing fields. The GraphQL Playground helps you with its auto-completion and query validation features.
+
+### Retrieve all published posts and their authors
+
+```graphql
+query {
+  feed {
+    id
+    title
+    content
+    published
+    author {
+      id
+      name
+      email
+    }
+  }
+}
+```
+
+<details><summary><strong>See more API operations</strong></summary>
+
+### Retrieve the drafts of a user
+
+```graphql
+{
+  draftsByUser(userUniqueInput: { email: "mahmoud@prisma.io" }) {
+    id
+    title
+    content
+    published
+    author {
+      id
+      name
+      email
+    }
+  }
+}
+```
+
+### Create a new user
+
+```graphql
+mutation {
+  signupUser(data: { name: "Sarah", email: "sarah@prisma.io" }) {
+    id
+  }
+}
+```
+
+### Create a new draft
+
+```graphql
+mutation {
+  createDraft(data: { title: "Join the Prisma Slack", content: "https://slack.prisma.io" }, authorEmail: "alice@prisma.io") {
+    id
+    viewCount
+    published
+    author {
+      id
+      name
+    }
+  }
+}
+```
+
+### Publish/unpublish an existing post
+
+```graphql
+mutation {
+  togglePublishPost(id: __POST_ID__) {
+    id
+    published
+  }
+}
+```
+
+Note that you need to replace the `__POST_ID__` placeholder with an actual `id` from a `Post` record in the database, e.g.`5`:
+
+```graphql
+mutation {
+  togglePublishPost(id: 5) {
+    id
+    published
+  }
+}
+```
+
+### Increment the view count of a post
+
+```graphql
+mutation {
+  incrementPostViewCount(id: __POST_ID__) {
+    id
+    viewCount
+  }
+}
+```
+
+Note that you need to replace the `__POST_ID__` placeholder with an actual `id` from a `Post` record in the database, e.g.`5`:
+
+```graphql
+mutation {
+  incrementPostViewCount(id: 5) {
+    id
+    viewCount
+  }
+}
+```
+
+### Search for posts that contain a specific string in their title or content
+
+```graphql
+{
+  feed(searchString: "prisma") {
+    id
+    title
+    content
+    published
+  }
+}
+```
+
+### Paginate and order the returned posts
+
+```graphql
+{
+  feed(skip: 2, take: 2, orderBy: { updatedAt: desc }) {
+    id
+    updatedAt
+    title
+    content
+    published
+  }
+}
+```
+
+### Retrieve a single post
+
+```graphql
+{
+  postById(id: __POST_ID__) {
+    id
+    title
+    content
+    published
+  }
+}
+```
+
+Note that you need to replace the `__POST_ID__` placeholder with an actual `id` from a `Post` record in the database, e.g.`5`:
+
+```graphql
+{
+  postById(id: 5) {
+    id
+    title
+    content
+    published
+  }
+}
+```
+
+### Delete a post
+
+```graphql
+mutation {
+  deletePost(id: __POST_ID__) {
+    id
+  }
+}
+```
+
+Note that you need to replace the `__POST_ID__` placeholder with an actual `id` from a `Post` record in the database, e.g.`5`:
+
+```graphql
+mutation {
+  deletePost(id: 5) {
+    id
+  }
+}
+```
+
+</details>
+
+## Evolving the app
+
+Evolving the application typically requires two steps:
+
+1. Migrate your database using Prisma Migrate
+1. Update your application code
+
+For the following example scenario, assume you want to add a "profile" feature to the app where users can create a profile and write a short bio about themselves.
+
+### 1. Migrate your database using Prisma Migrate
+
+The first step is to add a new table, e.g. called `Profile`, to the database. You can do this by adding a new model to your [Prisma schema file](./prisma/schema.prisma) file and then running a migration afterwards:
+
+```diff
+// ./prisma/schema.prisma
+
+model User {
+  id      Int      @default(autoincrement()) @id
+  name    String?
+  email   String   @unique
+  posts   Post[]
++ profile Profile?
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  content   String?
+  published Boolean  @default(false)
+  viewCount Int      @default(0)
+  author    User?    @relation(fields: [authorId], references: [id])
+  authorId  Int?
+}
+
++model Profile {
++  id     Int     @default(autoincrement()) @id
++  bio    String?
++  user   User    @relation(fields: [userId], references: [id])
++  userId Int     @unique
++}
+```
+
+Once you've updated your data model, you can execute the changes against your database with the following command:
+
+```
+npx prisma migrate dev --name add-profile
+```
+
+This adds another migration to the `prisma/migrations` directory and creates the new `Profile` table in the database.
+
+### 2. Update your application code
+
+You can now use your `PrismaClient` instance to perform operations against the new `Profile` table. Those operations can be used to implement queries and mutations in the GraphQL API.
+
+#### 2.1. Add the `Profile` type to your GraphQL schema
+
+First, create a new `profile.ts` file add a new GraphQL type via Pothos' `prismaObject` function:
+
+```diff
+// ./src/schema/profile.ts
++import { builder } from "../builder";
+
++builder.prismaObject('Profile', {
++  fields: (t) => ({
++    id: t.exposeInt('id'),
++    bio: t.exposeString('bio', { nullable: true }),
++    user: t.relation('user'),
++  }),
++})
+```
+
+Update the `User` object type to include the `profile field:
+
+```diff
+// ./src/schema/user.ts
+
+builder.prismaObject('User', {
+  fields: (t) => ({
+    id: t.exposeInt('id'),
+    name: t.exposeString('name', { nullable: true }),
+    email: t.exposeString('email'),
+    posts: t.relation('posts'),
++    profile: t.relation('profile'),
+  }),
+})
+```
+
+#### 2.2. Add a `createProfile` GraphQL mutation
+
+```diff
+// ./src/schema/profile.ts
+import { builder } from "../builder";
++import { prisma } from '../db'
++import { UserUniqueInput } from './user';
+
+// ... object type
+
+
++builder.mutationField('createProfile', (t) =>
++  t.prismaField({
++    type: 'Profile',
++    args: {
++      bio: t.arg.string({ required: true }),
++      data: t.arg({ type: UserUniqueInput })
++    },
++    resolve: async (query, _parent, args, _context) =>
++      prisma.profile.create({
++        ...query,
++        data: {
++          bio: args.bio,
++          user: {
++            connect: {
++              id: args.data?.id || undefined,
++              email: args.data?.email || undefined
++            }
++          }
++        }
++      })
++  })
++)
+```
+
+Finally, you can test the new mutation like this:
+
+```graphql
+mutation {
+  createProfile(userUniqueInput: { email: "mahmoud@prisma.io" }, bio: "I like turtles") {
+    id
+    bio
+    user {
+      id
+      name
+    }
+  }
+}
+```
+
+<details><summary>Expand to view more sample Prisma Client queries on <code>Profile</code></summary>
+
+Here are some more sample Prisma Client queries on the new <code>Profile</code> model:
+
+##### Create a new profile for an existing user
+
+```ts
+const profile = await prisma.profile.create({
+  data: {
+    bio: 'Hello World',
+    user: {
+      connect: { email: 'alice@prisma.io' },
+    },
+  },
+})
+```
+
+##### Create a new user with a new profile
+
+```ts
+const user = await prisma.user.create({
+  data: {
+    email: 'john@prisma.io',
+    name: 'John',
+    profile: {
+      create: {
+        bio: 'Hello World',
+      },
+    },
+  },
+})
+```
+
+##### Update the profile of an existing user
+
+```ts
+const userWithUpdatedProfile = await prisma.user.update({
+  where: { email: 'alice@prisma.io' },
+  data: {
+    profile: {
+      update: {
+        bio: 'Hello Friends',
+      },
+    },
+  },
+})
+```
+
+</details>
+
+## Switch to another database (e.g. PostgreSQL, MySQL, SQL Server, MongoDB)
+
+If you want to try this example with another database than SQLite, you can adjust the the database connection in [`prisma/schema.prisma`](./prisma/schema.prisma) by reconfiguring the `datasource` block.
+
+Learn more about the different connection configurations in the [docs](https://www.prisma.io/docs/reference/database-reference/connection-urls).
+
+<details><summary>Expand for an overview of example configurations with different databases</summary>
+
+### PostgreSQL
+
+For PostgreSQL, the connection URL has the following structure:
+
+```prisma
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA"
+}
+```
+
+Here is an example connection string with a local PostgreSQL database:
+
+```prisma
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://janedoe:mypassword@localhost:5432/notesapi?schema=public"
+}
+```
+
+### MySQL
+
+For MySQL, the connection URL has the following structure:
+
+```prisma
+datasource db {
+  provider = "mysql"
+  url      = "mysql://USER:PASSWORD@HOST:PORT/DATABASE"
+}
+```
+
+Here is an example connection string with a local MySQL database:
+
+```prisma
+datasource db {
+  provider = "mysql"
+  url      = "mysql://janedoe:mypassword@localhost:3306/notesapi"
+}
+```
+
+### Microsoft SQL Server
+
+Here is an example connection string with a local Microsoft SQL Server database:
+
+```prisma
+datasource db {
+  provider = "sqlserver"
+  url      = "sqlserver://localhost:1433;initial catalog=sample;user=sa;password=mypassword;"
+}
+```
+
+### MongoDB
+
+Here is an example connection string with a local MongoDB database:
+
+```prisma
+datasource db {
+  provider = "mongodb"
+  url      = "mongodb://USERNAME:PASSWORD@HOST/DATABASE?authSource=admin&retryWrites=true&w=majority"
+}
+```
+
+</details>
+
+## Next steps
+
+- Check out the [Prisma docs](https://www.prisma.io/docs)
+- Share your feedback in the [`#product-wishlist`](https://prisma.slack.com/messages/CKQTGR6T0/) channel on the [Prisma Slack](https://slack.prisma.io/)
+- Create issues and ask questions on [GitHub](https://github.com/prisma/prisma/)
+- Watch our biweekly "What's new in Prisma" livestreams on [Youtube](https://www.youtube.com/channel/UCptAHlN1gdwD89tFM3ENb6w)
