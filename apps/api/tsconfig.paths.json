@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@/builder": ["./builder.ts"],
+      "@/db": ["./db.ts"]
+    }
+  }
+}

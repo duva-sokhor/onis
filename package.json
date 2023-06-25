@@ -4,7 +4,14 @@
   "description": "Open source user authentication",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "dev:all": "turbo run dev --filter=\"@onis/web\" --filter=\"@onis/website\" --filter=\"@onis/console\"",
+    "dev:api": "turbo run dev --filter=\"@onis/web\" --filter=\"@onis/api\"",
+    "dev": "turbo run dev --filter=\"@onis/web\"",
+    "build-storybook": "turbo run build --filter=\"@onis/storybook\"",
+    "dx": "turbo run dx",
+    "prisma": "pnpm --filter=@onis/prisma prisma",
+    "web": "pnpm --filter=@onis/web"
   },
   "keywords": [],
   "author": "",
@@ -13,10 +20,16 @@
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
     "@commitlint/config-nx-scopes": "^17.6.4",
+    "@types/node": "^20.3.1",
+    "eslint": "^7.32.0",
     "husky": "^8.0.0",
     "lint-staged": "^13.2.2",
     "nx": "^16.1.4",
-    "prettier": "^2.8.8"
+    "prettier": "^2.8.8",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "turbo": "^1.10.6"
   },
   "engines": {
     "node": ">=14.19.1 <=18.x.x",

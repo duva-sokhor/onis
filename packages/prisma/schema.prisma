@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["views", "jsonProtocol"]
+  output          = "./client"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator zod {
+  provider      = "zod-prisma"
+  output        = "./zod"
+  imports       = "./zod-utils"
+  relationModel = "default"
+}
+
+generator pothos {
+  provider = "prisma-pothos-types"
+  output   = "./pothos.d.ts"
+}
+
+model User {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
+
+  // User Status: [ACTIVE, INACTIVE, BLOCKED]
+  status String
+
+  // Email Password Auth
+  passwordHash    String?   @map("password_hash")
+  // Verification
+  emailVerifiedAt DateTime? @map("email_verified_at")
+
+  // Metadata
+  metadata Json?
+
+  // Dates
+  lastActiveTime DateTime @default(now()) @map("last_active_time")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model JwtSigningKey {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  key       String @unique
+  // Key Status: [CURRENT_USED, PREVIOUSLY_USED, NEXT_IN_QUEUE, REVOKED]
+  status    String
+  // Key Algorithm: [RS256, RS384, RS512]
+  algorithm String
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("jwt_signing_keys")
+}
+
+type ApplicationURI {
+  loginURI     String   @default("https://localhost:3000/login") @map("login_uri")
+  callbackURLs String[] @map("callback_urls")
+  logoutURLs   String[] @map("logout_urls")
+}
+
+model Application {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  description  String?
+  // Application Types: [NATIVE, WEB, TRADITIONAL_WEB, MACHINE_TO_MACHINE]
+  type         String
+  clientId     String  @unique @default(cuid()) @map("client_id")
+  clientSecret String  @map("client_secret")
+
+  // Access Token Validity in Seconds (Default 5 minutes)
+  accessTokenValidity Int @default(300) @map("access_token_validity")
+
+  // Application URIs
+  appUris              ApplicationURI @map("app_uris")
+  // Refresh Token Validity in Minutes (Default 24 hours) 
+  refreshTokenLifetime Int            @default(86400) @map("refresh_token_lifetime")
+
+  // Metadata
+  metadata Json?
+
+  // Soft Delete
+  deleted DateTime? @map("deleted_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("applications")
+}
