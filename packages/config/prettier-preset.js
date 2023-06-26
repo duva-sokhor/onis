@@ -1,3 +1,6 @@
+/**
+ * @type {import('prettier').Options}
+ */
 module.exports = {
   bracketSpacing: true,
   bracketSameLine: true,
@@ -17,14 +20,7 @@ module.exports = {
   ],
   importOrderSeparation: true,
   pluginSearchDirs: false,
-  plugins: [
-    require.resolve("@trivago/prettier-plugin-sort-imports"),
-    /**
-     * **NOTE** tailwind plugin must come last!
-     * @see https://github.com/tailwindlabs/prettier-plugin-tailwindcss#compatibility-with-other-prettier-plugins
-     */
-    require.resolve("prettier-plugin-tailwindcss"),
-  ],
+  plugins: [require.resolve("@trivago/prettier-plugin-sort-imports")],
   overrides: [
     {
       files: ["apps/website/lib/utils/wordlist/wordlist.ts"],
