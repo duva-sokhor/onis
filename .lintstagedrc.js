@@ -1,5 +1,5 @@
 module.exports = {
-  '(apps|packages)/**/*.{js,ts,jsx,tsx}': [`prettier --write`, 'eslint --fix'],
-  '*.json': ['prettier --write', 'git add'],
-  'packages/prisma/schema.prisma': ['prisma format']
+  '(apps|packages)/**/*.{js,ts,jsx,tsx}': [`pnpm prettier --write`, 'pnpm eslint --fix'],
+  '*.json': ['prettier --write'],
+  'packages/prisma/schema.prisma': ['pnpm prisma format']
 }

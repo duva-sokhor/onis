@@ -20,8 +20,10 @@ generator zod {
 }
 
 generator pothos {
-  provider = "prisma-pothos-types"
-  output   = "./pothos.d.ts"
+  provider     = "prisma-pothos-types"
+  // Match client output location from above
+  clientOutput = "./client"
+  output       = "./pothos.d.ts"
 }
 
 model User {

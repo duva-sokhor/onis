@@ -13,13 +13,13 @@
     "clean": "rm -rf .turbo && rm -rf node_modules",
     "db-nuke": "docker compose down --volumes --remove-orphans || docker-compose down --volumes --remove-orphans",
     "db-reset": "run-s db-nuke db-setup",
-    "db-seed": "yarn prisma db seed",
+    "db-seed": "pnpm prisma db seed",
     "db-setup": "run-s db-up db-deploy db-seed",
-    "db-studio": "yarn prisma studio",
+    "db-studio": "pnpm prisma studio",
     "db-up": "docker compose up -d || docker-compose up -d",
-    "dx": "yarn db-setup",
+    "dx": "pnpm db-setup",
     "generate-schemas": "prisma generate && prisma format",
-    "post-install": "yarn generate-schemas"
+    "post-install": "pnpm generate-schemas"
   },
   "keywords": [],
   "author": "",
