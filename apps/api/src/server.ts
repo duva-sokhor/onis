@@ -1,12 +1,13 @@
-import { ApolloServer } from '@apollo/server'
-import { expressMiddleware } from '@apollo/server/express4'
-import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
-import body from 'body-parser'
-import cors from 'cors'
-import express from 'express'
-import http from 'http'
-import { createContext, type IContext } from './context'
-import { schema } from './schema'
+import { ApolloServer } from "@apollo/server"
+import { expressMiddleware } from "@apollo/server/express4"
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer"
+import body from "body-parser"
+import cors from "cors"
+import express from "express"
+import http from "http"
+
+import { createContext, type IContext } from "./context"
+import { schema } from "./schema"
 
 async function main() {
   // Required logic for integrating with Express
@@ -25,17 +26,15 @@ async function main() {
   await server.start()
 
   app.use(
-    '/graphql',
+    "/graphql",
     cors<cors.CorsRequest>(),
     body.json(),
     expressMiddleware(server, {
       context: createContext,
-    }),
+    })
   )
 
-  await new Promise<void>((resolve) =>
-    httpServer.listen({ port: 4000 }, resolve),
-  )
+  await new Promise<void>((resolve) => httpServer.listen({ port: 4000 }, resolve))
 
   console.log(`🚀 Server ready at http://localhost:4000/`)
 }

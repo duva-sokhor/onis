@@ -1,6 +1,8 @@
-import prisma from '.'
+import prisma from "./src"
 
-async function main() {}
+async function main() {
+  console.log("Start seeding...")
+}
 
 main()
 

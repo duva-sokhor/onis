@@ -1,3 +1,3 @@
-import { PrismaClient } from '@onis/prisma/client'
+import prisma from "@onis/prisma"
 
-export const prisma = new PrismaClient()
+export default prisma

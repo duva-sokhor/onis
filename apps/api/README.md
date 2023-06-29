@@ -128,7 +128,10 @@ mutation {
 
 ```graphql
 mutation {
-  createDraft(data: { title: "Join the Prisma Slack", content: "https://slack.prisma.io" }, authorEmail: "alice@prisma.io") {
+  createDraft(
+    data: { title: "Join the Prisma Slack", content: "https://slack.prisma.io" }
+    authorEmail: "alice@prisma.io"
+  ) {
     id
     viewCount
     published
@@ -407,9 +410,9 @@ Here are some more sample Prisma Client queries on the new <code>Profile</code> 
 ```ts
 const profile = await prisma.profile.create({
   data: {
-    bio: 'Hello World',
+    bio: "Hello World",
     user: {
-      connect: { email: 'alice@prisma.io' },
+      connect: { email: "alice@prisma.io" },
     },
   },
 })
@@ -420,11 +423,11 @@ const profile = await prisma.profile.create({
 ```ts
 const user = await prisma.user.create({
   data: {
-    email: 'john@prisma.io',
-    name: 'John',
+    email: "john@prisma.io",
+    name: "John",
     profile: {
       create: {
-        bio: 'Hello World',
+        bio: "Hello World",
       },
     },
   },
@@ -435,11 +438,11 @@ const user = await prisma.user.create({
 
 ```ts
 const userWithUpdatedProfile = await prisma.user.update({
-  where: { email: 'alice@prisma.io' },
+  where: { email: "alice@prisma.io" },
   data: {
     profile: {
       update: {
-        bio: 'Hello Friends',
+        bio: "Hello Friends",
       },
     },
   },

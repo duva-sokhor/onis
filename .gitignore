@@ -50,8 +50,12 @@ Thumbs.db
 artifacts/
 
 **/*/.vscode
-**/*/prisma/client/**
-**/*/prisma/generated.d.ts
+
+# Prisma Generated files
+packages/prisma/generated
+packages/prisma/pothos
+# Only ignore the generated schema file in the root directory
+packages/prisma/zod/*.ts
 
 # turbo
 .turbo

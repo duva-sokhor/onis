@@ -7,7 +7,7 @@ module.exports = {
   singleQuote: false,
   jsxSingleQuote: false,
   trailingComma: "es5",
-  semi: true,
+  semi: false,
   printWidth: 110,
   arrowParens: "always",
   importOrder: [
@@ -21,12 +21,4 @@ module.exports = {
   importOrderSeparation: true,
   pluginSearchDirs: false,
   plugins: [require.resolve("@trivago/prettier-plugin-sort-imports")],
-  overrides: [
-    {
-      files: ["apps/website/lib/utils/wordlist/wordlist.ts"],
-      options: {
-        quoteProps: "consistent",
-      },
-    },
-  ],
-};
+}

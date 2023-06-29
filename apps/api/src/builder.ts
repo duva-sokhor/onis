@@ -1,8 +1,9 @@
-import { prisma } from '@/db'
-import type PrismaTypes from '@onis/prisma/pothos'
-import SchemaBuilder from '@pothos/core'
-import PrismaPlugin from '@pothos/plugin-prisma'
-import { DateTimeResolver } from 'graphql-scalars'
+import prisma from "@/db"
+import SchemaBuilder from "@pothos/core"
+import PrismaPlugin from "@pothos/plugin-prisma"
+import { DateTimeResolver } from "graphql-scalars"
+
+import type PrismaTypes from "@onis/prisma/pothos"
 
 export const builder = new SchemaBuilder<{
   PrismaTypes: PrismaTypes
@@ -23,4 +24,4 @@ export const builder = new SchemaBuilder<{
 builder.queryType({})
 builder.mutationType({})
 
-builder.addScalarType('DateTime', DateTimeResolver, {})
+builder.addScalarType("DateTime", DateTimeResolver, {})

@@ -14,7 +14,8 @@
     },
     "@onis/prisma#build": {
       "cache": false,
-      "dependsOn": ["post-install"]
+      "dependsOn": ["post-install"],
+      "env": ["NEXT_PUBLIC_DEBUG", "NODE_ENV"]
     },
     "@onis/prisma#db-up": {
       "cache": false
@@ -22,11 +23,7 @@
     "@onis/web#build": {
       "dependsOn": ["^build"],
       "outputs": [".next/**"],
-      "env": [
-        "NEXT_PUBLIC_WEBAPP_URL",
-        "NEXT_PUBLIC_API_URL",
-        "NEXT_PUBLIC_GRAPHQL_URL"
-      ]
+      "env": ["NEXT_PUBLIC_WEBAPP_URL", "NEXT_PUBLIC_API_URL", "NEXT_PUBLIC_GRAPHQL_URL"]
     },
     "post-install": {
       "dependsOn": [],

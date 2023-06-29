@@ -1,11 +1,11 @@
-import type { PrismaClient } from '@prisma/client'
+import type { PrismaClient } from "../client"
 
 function softDeleteMiddleware(prisma: PrismaClient) {
   /***********************************/
   /* SOFT DELETE MIDDLEWARE */
   /***********************************/
   prisma.$extends({
-    name: 'soft-delete',
+    name: "soft-delete",
     query: {
       $allModels: {
         async findMany({ args, query }) {
@@ -18,15 +18,16 @@ function softDeleteMiddleware(prisma: PrismaClient) {
 
         async delete({ model, args }) {
           // translate "delete" to "update"
+          // eslint-disable @typescript-eslint/no-explicit-any
           return (prisma as any)[model].update({
             ...args,
-            data: { deleted: new Date() }
+            data: { deleted: new Date() },
           })
-        }
+        },
 
         // ... deleteMany
-      }
-    }
+      },
+    },
   })
 }
 

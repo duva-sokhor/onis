@@ -4,7 +4,7 @@
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["views", "jsonProtocol"]
-  output          = "./client"
+  output          = "generated/client"
 }
 
 datasource db {
@@ -12,18 +12,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-generator zod {
-  provider      = "zod-prisma"
-  output        = "./zod"
-  imports       = "./zod-utils"
-  relationModel = "default"
-}
+// generator zod {
+//   provider      = "zod-prisma"
+//   output        = "./zod"
+//   relationModel = "default"
+// }
 
 generator pothos {
   provider     = "prisma-pothos-types"
   // Match client output location from above
-  clientOutput = "./client"
-  output       = "./pothos.d.ts"
+  clientOutput = "../generated/client"
+  output       = "./pothos/index.d.ts"
 }
 
 model User {

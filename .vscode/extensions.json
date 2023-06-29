@@ -1,9 +1,14 @@
 {
   "recommendations": [
-    "nrwl.angular-console",
-    "esbenp.prettier-vscode",
-    "firsttris.vscode-jest-runner",
-    "dbaeumer.vscode-eslint",
-    "vivaxy.vscode-conventional-commits"
+    "vivaxy.vscode-conventional-commits", // commit linting
+    "DavidAnson.vscode-markdownlint", // markdown linting
+    "yzhang.markdown-all-in-one", // nicer markdown support
+    "esbenp.prettier-vscode", // prettier plugin
+    "dbaeumer.vscode-eslint", // eslint plugin
+    "bradlc.vscode-tailwindcss", // hinting / autocompletion for tailwind
+    "ban.spellright", // Spell check for docs
+    "Prisma.prisma", // syntax|format|completion for prisma
+    "rebornix.project-snippets", // Share useful snippets between collaborators
+    "inlang.vs-code-extension" // improved i18n DX
   ]
 }

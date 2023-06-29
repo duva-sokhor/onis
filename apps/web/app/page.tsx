@@ -1,4 +1,4 @@
-import { Button, Header } from "@onis/ui";
+import { Button, Header } from "@onis/ui"
 
 export default function Page() {
   return (
@@ -6,5 +6,5 @@ export default function Page() {
       <Header text="Web" />
       <Button />
     </>
-  );
+  )
 }
