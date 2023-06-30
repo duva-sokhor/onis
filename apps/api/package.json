@@ -3,7 +3,7 @@
   "license": "MIT",
   "main": "src/server.ts",
   "scripts": {
-    "build": "rm -rf dist && tsc && tsc-alias && pnpm run build:schema",
+    "build": "tsup && tsc-alias",
     "build:schema": "ts-node src/schema/index.ts",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "dev": "tsnd -r tsconfig-paths/register --no-notify --respawn --transpile-only src/server",
@@ -26,12 +26,12 @@
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/node": "18.16.17",
-    "config": "workspace:*",
     "eslint-config-custom": "workspace:*",
     "ts-node": "10.9.1",
     "ts-node-dev": "2.0.0",
     "tsc-alias": "^1.8.6",
     "tsconfig-paths": "^4.2.0",
+    "tsup": "^7.1.0",
     "typescript": "^5.1.6"
   }
 }
