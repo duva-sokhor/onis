@@ -1,0 +1,22 @@
+{
+  "extends": "@onis/tsconfig/base.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "target": "es2019",
+    "module": "commonjs",
+    "lib": ["es2020"],
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "strict": true,
+    "skipLibCheck": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/builder": ["./src/builder.ts"],
+      "@/db": ["./src/db.ts"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

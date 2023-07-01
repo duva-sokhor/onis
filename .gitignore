@@ -43,11 +43,19 @@ Thumbs.db
 
 *.secrets
 
-.env*
+.env
 !.env.example
+!packages/prisma/.env
 
 artifacts/
 
 **/*/.vscode
-**/*/prisma/client/**
-**/*/prisma/generated.d.ts
+
+# Prisma Generated files
+packages/prisma/generated
+packages/prisma/pothos
+# Only ignore the generated schema file in the root directory
+packages/prisma/zod
+
+# turbo
+.turbo

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+    },
+    "lint": {},
+    "dev": {
+      "dependsOn": ["//#env-check:common"],
+      "cache": false,
+      "persistent": true
+    },
+    "@onis/prisma#build": {
+      "cache": false,
+      "dependsOn": ["post-install"],
+      "env": ["NEXT_PUBLIC_DEBUG", "NODE_ENV"]
+    },
+    "@onis/prisma#db-up": {
+      "cache": false
+    },
+    "@onis/web#build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**"],
+      "env": ["NEXT_PUBLIC_WEBAPP_URL", "NEXT_PUBLIC_API_URL", "NEXT_PUBLIC_GRAPHQL_URL"]
+    },
+    "post-install": {
+      "dependsOn": [],
+      "outputs": ["generated/client/**", "pothos/**", "zod/**"],
+      "inputs": ["./schema.prisma", "./prisma/schema.prisma"],
+      "env": ["PRISMA_GENERATE_DATAPROXY"]
+    },
+    "clean": {
+      "cache": false,
+      "outputs": ["dist/**", "build/**"]
+    },
+    "//#env-check:common": {
+      "cache": false,
+      "inputs": ["./.env.example", "./.env"],
+      "outputs": ["./.env"]
+    }
+  }
+}
