@@ -1,19 +1,21 @@
 {
-  "extends": "./tsconfig.paths.json",
+  "extends": "@onis/tsconfig/base.json",
   "compilerOptions": {
     "rootDir": "./src",
-    "module": "commonjs",
     "target": "es2019",
-    "lib": ["esnext"],
+    "module": "commonjs",
+    "lib": ["es2020"],
     "moduleResolution": "node",
     "outDir": "dist",
     "strict": true,
     "skipLibCheck": false,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
-  },
-  "ts-node": {
-    "require": ["tsconfig-paths/register"]
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/builder": ["./src/builder.ts"],
+      "@/db": ["./src/db.ts"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

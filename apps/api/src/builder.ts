@@ -5,9 +5,11 @@ import { DateTimeResolver } from "graphql-scalars"
 
 import type PrismaTypes from "@onis/prisma/pothos"
 
+import { IContext } from "./context"
+
 export const builder = new SchemaBuilder<{
   PrismaTypes: PrismaTypes
-  Context: {}
+  Context: IContext
   Scalars: {
     DateTime: {
       Input: Date

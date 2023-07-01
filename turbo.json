@@ -4,7 +4,7 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "lint": {},
     "dev": {
@@ -27,7 +27,7 @@
     },
     "post-install": {
       "dependsOn": [],
-      "outputs": ["../../node_modules/@prisma/client/**"],
+      "outputs": ["generated/client/**", "pothos/**", "zod/**"],
       "inputs": ["./schema.prisma", "./prisma/schema.prisma"],
       "env": ["PRISMA_GENERATE_DATAPROXY"]
     },

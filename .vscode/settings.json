@@ -3,9 +3,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "[javascript,javascriptreact,typescript,typescriptreact]": {
-    "editor.formatOnSave": true
-  },
+  "editor.formatOnSave": true,
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "spellright.language": ["en"],
   "[prisma]": {

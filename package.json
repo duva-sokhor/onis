@@ -6,17 +6,20 @@
   "license": "ISC",
   "author": "",
   "scripts": {
-    "build-storybook": "turbo run build --filter=\"@onis/storybook\"",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "dx": "turbo run dx",
     "commit": "cz",
+    "build-storybook": "turbo run build --filter=\"@onis/storybook\"",
     "dev": "turbo run dev --filter=\"@onis/web\"",
     "dev:all": "turbo run dev --filter=\"@onis/web\" --filter=\"@onis/website\" --filter=\"@onis/console\"",
     "dev:api": "turbo run dev --filter=\"@onis/web\" --filter=\"@onis/api\"",
-    "dx": "turbo run dx",
     "env-check:common": "dotenv-checker --schema .env.example --env .env",
     "pre-commit": "lint-staged",
     "prepare": "husky install",
     "prisma": "pnpm --filter=@onis/prisma prisma",
-    "web": "pnpm --filter=@onis/web"
+    "web": "pnpm --filter=@onis/web",
+    "graphql": "pnpm --filter=@onis/graphql"
   },
   "dependencies": {
     "turbo": "^1.10.6"
@@ -26,11 +29,11 @@
     "@commitlint/config-conventional": "^17.6.3",
     "@commitlint/cz-commitlint": "^17.5.0",
     "@commitlint/types": "^17.4.4",
+    "@turbo/gen": "^1.9.7",
     "@types/node": "^20.3.1",
     "commitizen": "^4.3.0",
     "dotenv-checker": "^1.1.5",
     "eslint": "^8.34.0",
-    "eslint-config-custom": "workspace:*",
     "husky": "^8.0.0",
     "jsdom": "^22.1.0",
     "lint-staged": "^13.2.2",

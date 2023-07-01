@@ -12,11 +12,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// generator zod {
-//   provider      = "zod-prisma"
-//   output        = "./zod"
-//   relationModel = "default"
-// }
+generator zod {
+  provider         = "zod-prisma-types"
+  output           = "./zod"
+  useMultipleFiles = true
+  writeBarrelFiles = true
+  prismaClientPath = "../generated/client"
+}
 
 generator pothos {
   provider     = "prisma-pothos-types"
@@ -33,7 +35,7 @@ model User {
   status String
 
   // Email Password Auth
-  passwordHash    String?   @map("password_hash")
+  passwordHash    String?   @map("password_hash") /// @zod.custom.omit(["model", "input"])
   // Verification
   emailVerifiedAt DateTime? @map("email_verified_at")
 
